@@ -11,6 +11,8 @@ namespace IpCalculator
     {
         public static bool CheckValidation(string ip)
         {
+            const string patternalt = @"^[0-255].[0-255].[0-255].[0-255]/[0-32]$";
+
             const string pattern =
                 @"^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])){2}\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\/(3[0-2]|[0-2]?[0-9])$";
             if (!Regex.IsMatch(ip, pattern))
@@ -22,7 +24,6 @@ namespace IpCalculator
             Console.WriteLine($"Ur ayypee {ip}");
             return true;
         }
-
 
         public static string NetworkOrBroadcast(string ip, string mask, bool broadcast)
         {
@@ -64,7 +65,6 @@ namespace IpCalculator
 
             return AddDotsBinary(fullMask);
         }
-
 
         public static string HostMin(string network)
         {
@@ -130,7 +130,6 @@ namespace IpCalculator
 
             return string.Join(".", octets);
         }
-
 
         public static string AddDotsBinary(string address)
         {
