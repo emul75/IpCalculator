@@ -18,20 +18,19 @@ namespace IpCalculator
 
             Ipv4 ip = new Ipv4 {FullIp = userInputIp};
             
-            // ReSharper disable once PossibleNullReferenceException
             string[] temp = ip.FullIp.Split("/");
             ip.IpAddress = temp[0];
             ip.ShortMask = Convert.ToInt32(temp[1]);
 
             ip.BinaryIpAddress = Calculate.ConvertToBinary(ip.IpAddress);
 
-            ip.BinaryMask = Calculate.FullMask(ip.ShortMask);
+            ip.BinaryMask = Calculate.Mask(ip.ShortMask);
             ip.Mask = Calculate.ConvertToDecimal(ip.BinaryMask);
 
-            ip.BinaryNetwork = Calculate.NetworkOrBroadcast(ip.IpAddress, ip.BinaryMask, false);
+            ip.BinaryNetwork = Calculate.Network(ip.IpAddress, ip.BinaryMask);
             ip.Network = Calculate.ConvertToDecimal(ip.BinaryNetwork);
 
-            ip.BinaryBroadcast = Calculate.NetworkOrBroadcast(ip.IpAddress, ip.BinaryMask, true);
+            ip.BinaryBroadcast = Calculate.Broadcast(ip.IpAddress, ip.BinaryMask);
             ip.Broadcast = Calculate.ConvertToDecimal(ip.BinaryBroadcast);
 
             ip.HostMin = Calculate.HostMin(ip.Network);
@@ -42,7 +41,7 @@ namespace IpCalculator
 
             ip.NumberOfHosts = Calculate.NumberOfHosts(ip.ShortMask);
 
-            ip.NetworkClass = Calculate.Class(ip.IpAddress);
+            ip.NetworkClass = Calculate.NetworkClass(ip.IpAddress);
 
             string toJson = JsonSerializer.Serialize(ip, new JsonSerializerOptions
             {
