@@ -4,30 +4,28 @@ using System.Text.RegularExpressions;
 
 namespace IpCalculator
 {
-    public static class Calculate
+    public static class Calculator
     {
-        public static bool CheckValidation(string ip)
+        public static bool CheckCorrectIpFormat(string ip)
         {
             const string pattern =
                 @"^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])){2}\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\/(3[0-2]|[0-2]?[0-9])$";
-            if (!Regex.IsMatch(ip, pattern))
-            {
-                Console.WriteLine("Bad IP Address patter, please try again.");
-                return false;
-            }
-            return true;
+            if (Regex.IsMatch(ip, pattern)) return true;
+            Console.WriteLine("Bad IP Address format, please try again.");
+            return false;
         }
 
-        public static string Network(string ip, string mask)
+        public static string CalculateNetwork(string ip, string mask)
         {
-            return NetworkOrBroadcast(ip, mask, true, false);
-        }
-        public static string Broadcast(string ip, string mask)
-        {
-            return NetworkOrBroadcast(ip, mask, false, true);
+            return CalculateNetworkOrBroadcast(ip, mask, true, false);
         }
 
-        public static string NetworkOrBroadcast(string ip, string mask, bool network, bool broadcast)
+        public static string CalculateBroadcast(string ip, string mask)
+        {
+            return CalculateNetworkOrBroadcast(ip, mask, false, true);
+        }
+
+        private static string CalculateNetworkOrBroadcast(string ip, string mask, bool network, bool broadcast)
         {
             ip = ConvertToBinary(ip).Replace(".", "");
             mask = mask.Replace(".", "");
@@ -38,10 +36,10 @@ namespace IpCalculator
                 address = string.Concat(address, mask[i] == '1' ? ip[i] : (broadcast ? "1" : "0"));
             }
 
-            return AddDotsBinary(address);
+            return AddDotsToBinaryAddress(address);
         }
 
-        public static string NetworkClass(string ip)
+        public static string CalculateNetworkClass(string ip)
         {
             ip = ip.Split(".")[0];
 
@@ -56,7 +54,7 @@ namespace IpCalculator
             };
         }
 
-        public static string Mask(int shortMask)
+        public static string CalculateMask(int shortMask)
         {
             string fullMask = "";
             for (int i = 0; i < 32; i++)
@@ -64,10 +62,10 @@ namespace IpCalculator
                 fullMask = string.Concat(fullMask, i < shortMask ? "1" : "0");
             }
 
-            return AddDotsBinary(fullMask);
+            return AddDotsToBinaryAddress(fullMask);
         }
 
-        public static string HostMin(string network)
+        public static string CalculateHostMin(string network)
         {
             var octets = new List<string>(network.Split("."));
             for (int i = 4 - 1; i >= 0; i--)
@@ -85,7 +83,7 @@ namespace IpCalculator
             return string.Join(".", octets);
         }
 
-        public static string HostMax(string broadcast)
+        public static string CalculateHostMax(string broadcast)
         {
             var octets = new List<string>(broadcast.Split("."));
             for (int i = 4 - 1; i >= 0; i--)
@@ -103,9 +101,9 @@ namespace IpCalculator
             return string.Join(".", octets);
         }
 
-        public static int NumberOfHosts(int shortMask)
+        public static long CalculateNumberOfHosts(int shortMask)
         {
-            return Convert.ToInt32(Math.Pow(2, 32 - shortMask) - 2.0);
+            return Convert.ToInt64(Math.Pow(2, 32 - shortMask) - 2.0);
         }
 
 
@@ -132,7 +130,7 @@ namespace IpCalculator
             return string.Join(".", octets);
         }
 
-        private static string AddDotsBinary(string address)
+        private static string AddDotsToBinaryAddress(string address)
         {
             for (int i = 8; i < 32; i += 9) address = address.Insert(i, ".");
             return address;
