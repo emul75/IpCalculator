@@ -1,8 +1,4 @@
-﻿using System;
-using System.Reflection.Metadata;
-using System.Reflection.Metadata.Ecma335;
-
-namespace IpCalculator
+﻿namespace IpCalculator
 {
     public class Ipv4
     {

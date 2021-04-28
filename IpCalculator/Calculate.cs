@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 
 namespace IpCalculator
@@ -30,7 +27,6 @@ namespace IpCalculator
             ip = ConvertToBinary(ip).Replace(".", "");
             mask = mask.Replace(".", "");
 
-            //Creating temporary variable
             string network = null;
             for (int i = 0; i < 32; i++)
             {

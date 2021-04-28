@@ -7,13 +7,12 @@ namespace IpCalculator
 {
     internal static class IpCalculator
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string userInputIp;
             do
             {
                 Console.Write("Type IP adress: ");
-                userInputIp = "69.213.48.127/14";
                 userInputIp = Console.ReadLine();
             } while (!Calculate.CheckValidation(userInputIp));
 
