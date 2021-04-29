@@ -12,7 +12,7 @@ namespace IpCalculator
             string userInputIp;
             do
             {
-                Console.Write("Type IP adress: ");
+                Console.Write("Enter IP adress ( for example 82.126.84.209/14 ): ");
                 userInputIp = Console.ReadLine();
             } while (!Calculator.CheckCorrectIpFormat(userInputIp));
 
@@ -22,7 +22,7 @@ namespace IpCalculator
             {
                 WriteIndented = true,
             });
-            File.WriteAllText("../../../Output.json", toJson);
+            File.WriteAllText("../../../output.json", toJson);
 
             const string symbolsToDelete = "{}\":,";
             Console.WriteLine(symbolsToDelete.Aggregate(toJson,
